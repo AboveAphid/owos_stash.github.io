@@ -172,6 +172,34 @@ async function setCanvasImage(path) {
     })
 }
 
+async function download_or_copy_src(elem, backup_download_name="download.unknown") {
+    let res = await fetch(elem.src)
+
+    if (!res.ok) {
+        // Copy video link instead of downloading
+        await navigator.clipboard.writeText(elem.src)
+            .then(() => popup("Copied link to item!", 3000))
+            .catch(() => popup("Failed to copy!", 3000));
+    }
+
+    // Download Video
+    var blob = await res.blob()
+    var filename = elem.src.split("/").pop() || backup_download_name
+
+    console.log(filename)
+
+    const a_download_elem = document.createElement("a")
+    a_download_elem.href = URL.createObjectURL(blob);
+    a_download_elem.download = filename;
+    document.body.appendChild(a_download_elem);
+    a_download_elem.click();
+
+    URL.revokeObjectURL(a_download_elem.href);
+    a_download_elem.remove();
+    popup("Downloaded file!", 3000)
+
+}
+
 async function click_copy(elem) {
     switch (elem.nodeName) {
         case "DIV":
@@ -189,6 +217,14 @@ async function click_copy(elem) {
                 if (res.ok) {
                     var blob = await res.blob()
                 }
+            } else if (elem.src.endsWith(".gif")) {
+                download_or_copy_src(elem, "downloaded-gif.gif")
+                break;
+
+            } else if (elem.src.endsWith(".svg")) {
+                download_or_copy_src(elem, "downloaded-svg.svg")
+                blob = await setCanvasImage(elem.src); // Also copy it as a png to clipboard
+                
             } else {
                 // Not a png so we have to force it to become one through a canvas!
                 blob = await setCanvasImage(elem.src);
