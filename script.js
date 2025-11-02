@@ -125,22 +125,24 @@ async function add_gallery_content(adding_for, should_recheck_database=false) {
         file_urls = JSON.parse(file_urls)
     }
 
-    console.log(file_urls)
-
     for (url of file_urls) {
-        var image_elem = document.createElement(element_type);
-        image_elem.src = url;
-        image_elem.alt = "¯\\_(ツ)_/¯ Why would I know?"
-        image_elem.loading = "lazy" // Let's not freeze the user's webpage alr @_@
-        image_elem.onclick = async () => await click_copy(image_elem)
+        var file_elem = document.createElement(element_type);
+        file_elem.src = url;
+        file_elem.alt = "¯\\_(ツ)_/¯ Why would I know?"
+        file_elem.loading = "lazy" // Let's not freeze the user's webpage alr @_@
+        file_elem.onclick = async () => await click_copy(file_elem)
 
         if (element_type === "video") {
-            image_elem.controls = true;
-            image_elem.preload = "metadata"; // Only download video metadata at the start so that we don't freeze the tab!
+            // image_elem.controls = true;
+            file_elem.loop = true;
+            file_elem.onmouseover=file_elem.play 
+            file_elem.onmouseout=file_elem.pause
+
+            file_elem.preload = "metadata"; // Only download video metadata at the start so that we don't freeze the tab!
         }
 
 
-        gallery.appendChild(image_elem)
+        gallery.appendChild(file_elem)
     }
     
 }
@@ -148,6 +150,7 @@ async function add_gallery_content(adding_for, should_recheck_database=false) {
 async function setCanvasImage(path) {
     return new Promise((resolve, reject) => {
         const img = new Image();
+        img.crossOrigin = "anonymous"; // Stops Tainted canvases Security Error
         const c = document.createElement("canvas");
         const ctx = c.getContext("2d");
 
@@ -185,6 +188,8 @@ async function click_copy(elem) {
                 // Not a png so we have to force it to become one through a canvas!
                 blob = await setCanvasImage(elem.src);
             }
+
+            console.log("Blob:", blob)
 
             const clipboardItem = new ClipboardItem({
                 [blob.type]: blob // blob.type should equal 'image/png' as that is the only thing the browser can support!
