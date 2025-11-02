@@ -19,12 +19,16 @@
 
     <main>
 
+
         <section id="btns" class="btns">
             <a href="#imabgess">Images</a>
             <a href="#vids">Videos</a>
             <a href="#gifs_not_jifs">Gifs</a>
             <a href="#svgs">SVGs</a>
             <a href="#footer">You're such a bottom :></a>
+        </section>
+        <section id="download-all-btn" class="download-all-btn" onclick="async () => await download_all()">
+            <a>Download ALL</a>
         </section>
 
         <section id="imabgess">
@@ -69,5 +73,7 @@
         </div>
     </footer>
 
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script src="script.js"></script>
 </body>

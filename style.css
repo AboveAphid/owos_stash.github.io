@@ -70,6 +70,32 @@ main {
 
 }
 
+/* THE HOLY DOWNLOAD ALL BTN */
+.download-all-btn {
+    display: flex;
+    justify-content: center;
+
+}
+
+.download-all-btn a {
+    text-decoration: none;
+    font-size: 5rem;
+    padding: 0.75rem 2rem;
+    margin-right: 1rem;
+
+    color: white;
+    background-color: #412f2f;
+    border: 2px solid #5a3d3d;
+    border-radius: 20px;
+}
+
+.download-all-btn a:hover {
+    transform: scale(1.1) translateY(-5px);
+    transition: transform 0.2s;
+    border: 2px solid #6d4242;
+    background-color: #4b3232;
+}
+
 /* IMAGE GALLERIES */
 
 h2 {

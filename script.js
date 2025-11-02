@@ -17,6 +17,15 @@ const RECHECK_DATABASE_THRESHOLD_MINS = RECHECK_DATABASE_THRESHOLD_HOURS * 60
 const RECHECK_DATABASE_THRESHOLD_SECS = RECHECK_DATABASE_THRESHOLD_MINS * 60
 const RECHECK_DATABASE_THRESHOLD_MS = RECHECK_DATABASE_THRESHOLD_SECS * 1000
 
+const sfx = new Audio('assets\\kiss.wav');
+document.body.onclick = async function (event) {
+    console.log(event.x)
+
+    
+
+    await sfx.play()
+}
+
 function popup(message, disappear_delay_ms=5000) {
     var info_popup = document.getElementById("info-popup")
 
@@ -262,3 +271,48 @@ setTimeout(async () => {
     await add_gallery_content("svgs", should_recheck_database)
 
 }, 10)
+
+async function download_all() {
+    const zip = new JSZip();
+
+    popup("Retrieving file...")
+    console.log("Retrieving file...")
+
+    const video_urls = await get_files_from_repo(VIDEOS_URL)
+
+    const video_folder = zip.folder("Videos")
+
+    popup("Adding files to ZIP...")
+    console.log("Adding files to ZIP...")
+    var i = 0
+    for (const url of video_urls.slice(0, 10)) {
+        // Ignore folders >M<
+        // if (file.type !== "file") continue;
+
+        const res = await fetch(url);
+        
+        if (!res.ok) continue
+
+        const filename = url.split("/").pop()
+
+        // TODO: Make sure the file is not a subfolder!
+
+        const blob = await res.blob();
+        const arrayBuffer = await blob.arrayBuffer();
+
+        video_folder.file(filename + "_", arrayBuffer);
+
+        i++
+        console.log(`${i} / ${video_urls.length}`)
+        popup(`Retrieving videos: ${i} / ${video_urls.length}`, 4000)
+    }
+
+    popup("Compressing ZIP file...")
+    console.log("Compressing ZIP file...")
+    const content = await zip.generateAsync({ type: "blob" });
+    saveAs(content, "videos.zip"); // Uses FileSaver.js
+}
+
+download_all_btn = document.getElementById("download-all-btn")
+download_all_btn.onclick = download_all
+
