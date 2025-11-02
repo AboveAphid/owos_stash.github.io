@@ -196,10 +196,33 @@ async function click_copy(elem) {
             break;
 
         case "VIDEO":
-            await navigator.clipboard.writeText(elem.src)
-                .then(() => popup("Copied link to video!", 3000))
-                .catch(() => popup("Failed to copy!", 3000));
             
+            let res = await fetch(elem.src)
+
+            if (!res.ok) {
+                // Copy video link instead of downloading
+                await navigator.clipboard.writeText(elem.src)
+                    .then(() => popup("Copied link to video!", 3000))
+                    .catch(() => popup("Failed to copy!", 3000));
+            }
+
+            // Download Video
+            var blob = await res.blob()
+            var filename = elem.src.split("/").pop() || "video.mp4"
+
+            console.log(filename)
+
+            const a_download_elem = document.createElement("a")
+            a_download_elem.href = URL.createObjectURL(blob);
+            a_download_elem.download = filename;
+            document.body.appendChild(a_download_elem);
+            a_download_elem.click();
+
+            URL.revokeObjectURL(a_download_elem.href);
+            a_download_elem.remove();
+
+            popup("Downloading video!", 3000)
+
             break;
     }
 }
