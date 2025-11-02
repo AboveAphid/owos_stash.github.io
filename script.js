@@ -3,11 +3,11 @@
 const GITHUB_TOKEN = null
 
 const USERNAME = "AboveAphid"
-const REPO = "BK"
+const REPO = "owos_stash.github.io"
 
 const DATABASE_URL = `https://api.github.com/repos/${USERNAME}/${REPO}/contents/Database`
-// const IMAGES_URL = DATABASE_URL+"/Images"
-// const VIDEOS_URL = DATABASE_URL+"/Videos"
+const IMAGES_URL = DATABASE_URL+"/Images"
+const VIDEOS_URL = DATABASE_URL+"/Videos"
 const GIFS_URL = DATABASE_URL+"/Gifs"
 const SVGS_URL = DATABASE_URL+"/SVGs"
 
@@ -18,8 +18,8 @@ const RECHECK_DATABASE_THRESHOLD_SECS = RECHECK_DATABASE_THRESHOLD_MINS * 60
 const RECHECK_DATABASE_THRESHOLD_MS = RECHECK_DATABASE_THRESHOLD_SECS * 1000
 
 // Was testing:
-const IMAGES_URL = "https://api.github.com/repos/Ellieeewe/BoyKisser/contents/BoyKisser1" 
-const VIDEOS_URL = "https://api.github.com/repos/Ellieeewe/BoyKisser/contents/BoyKisser1" 
+// const IMAGES_URL = "https://api.github.com/repos/Ellieeewe/BoyKisser/contents/BoyKisser1" 
+// const VIDEOS_URL = "https://api.github.com/repos/Ellieeewe/BoyKisser/contents/BoyKisser1" 
 
 function popup(message, disappear_delay_ms=5000) {
     var info_popup = document.getElementById("info-popup")
@@ -236,5 +236,7 @@ setTimeout(async () => {
 
     await add_gallery_content("images", should_recheck_database)
     await add_gallery_content("videos", should_recheck_database)
+    await add_gallery_content("gifs", should_recheck_database)
+    await add_gallery_content("svgs", should_recheck_database)
 
 }, 10)
