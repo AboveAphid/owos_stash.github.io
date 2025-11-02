@@ -17,10 +17,6 @@ const RECHECK_DATABASE_THRESHOLD_MINS = RECHECK_DATABASE_THRESHOLD_HOURS * 60
 const RECHECK_DATABASE_THRESHOLD_SECS = RECHECK_DATABASE_THRESHOLD_MINS * 60
 const RECHECK_DATABASE_THRESHOLD_MS = RECHECK_DATABASE_THRESHOLD_SECS * 1000
 
-// Was testing:
-// const IMAGES_URL = "https://api.github.com/repos/Ellieeewe/BoyKisser/contents/BoyKisser1" 
-// const VIDEOS_URL = "https://api.github.com/repos/Ellieeewe/BoyKisser/contents/BoyKisser1" 
-
 function popup(message, disappear_delay_ms=5000) {
     var info_popup = document.getElementById("info-popup")
 
@@ -130,7 +126,8 @@ async function add_gallery_content(adding_for, should_recheck_database=false) {
         file_elem.src = url;
         file_elem.alt = "¯\\_(ツ)_/¯ Why would I know?"
         file_elem.loading = "lazy" // Let's not freeze the user's webpage alr @_@
-        file_elem.onclick = async () => await click_copy(file_elem)
+        
+        file_elem.onclick = async (event) => await click_copy(event.currentTarget)
 
         if (element_type === "video") {
             // image_elem.controls = true;
@@ -175,7 +172,6 @@ async function click_copy(elem) {
             
             break;
 
-        // Code for IMG & VID
         case "IMG":
 
             if (elem.src.endsWith(".png")) {
@@ -189,21 +185,19 @@ async function click_copy(elem) {
                 blob = await setCanvasImage(elem.src);
             }
 
-            console.log("Blob:", blob)
-
             const clipboardItem = new ClipboardItem({
                 [blob.type]: blob // blob.type should equal 'image/png' as that is the only thing the browser can support!
             })
 
             await navigator.clipboard.write([clipboardItem])
-                .then(() => popup("Copied!", 3000))
+                .then(() => popup("Copied to clipboard!", 3000))
                 .catch((err) => popup(`Failed to copy! ${err}`, 5000))
             
             break;
 
-        case "VID":
-            await navigator.clipboard.writeText(elem.innerText)
-                .then(() => popup("Copied!", 3000))
+        case "VIDEO":
+            await navigator.clipboard.writeText(elem.src)
+                .then(() => popup("Copied link to video!", 3000))
                 .catch(() => popup("Failed to copy!", 3000));
             
             break;
