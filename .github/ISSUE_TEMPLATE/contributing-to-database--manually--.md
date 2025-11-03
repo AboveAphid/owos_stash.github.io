@@ -9,7 +9,7 @@ assignees: ''
 ---
 
 Image: example.png
-Artist: @example (twitter)
+Artist: u/example (twitter)
 
 Image: example2.jpg
-Artist: @example2 (reddit)
+Artist: u/example2 (reddit)
