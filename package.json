@@ -1,0 +1,29 @@
+{
+  "name": "bkwebsite",
+  "version": "1.0.0",
+  "description": "Website Here: https://aboveaphid.github.io/owos_stash.github.io/",
+  "main": "contribute-script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "vite",
+    "build": "vite built"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AboveAphid/TheGalleryOfBoyKissers.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/AboveAphid/TheGalleryOfBoyKissers/issues"
+  },
+  "homepage": "https://github.com/AboveAphid/TheGalleryOfBoyKissers#readme",
+  "devDependencies": {
+    "vite": "^7.1.12"
+  },
+  "dependencies": {
+    "imghash": "^1.1.0"
+  }
+}
