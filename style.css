@@ -175,11 +175,38 @@ section {
 .gallery {
     display: grid;
     align-content: center;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    /* grid-template-rows: masonry; */
     gap: 1rem;
 }
 
-.gallery img, video {
+.gallery-masonry {
+    column-count: 4; /* Gets changed dynamically the @media later */
+    column-gap: 1rem;
+}
+
+/* Made this by accidentally breaking the masonry style */
+.gallery-file-cabinet {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-auto-rows: 10px;
+    gap: 1rem;
+}
+
+
+.gallery-item {
+    position: relative; /* This allows us to put stuff OVER the image! */
+    display: flex;
+}
+
+.gallery-item-masonry {
+    display: inline-block;
+    width: 100%;
+    margin-bottom: 1rem;
+    break-inside: avoid;
+}
+
+.gallery-item-style img, video {
     min-width: 100%;
     max-width: 100%;
     border-radius: 15px;
@@ -193,9 +220,53 @@ section {
     /* object-fit: cover; */
 }
 
-.gallery img:hover, video:hover {
+.gallery-item-style img:hover, video:hover {
     transform: scale(1.1);
 }
+
+/* Keep Masonry gallery working and adaptive to the size of the screen */
+@media screen and (max-width: 1200px) {
+    .gallery-masonry {
+        column-count: 3;
+        column-gap: 1rem;
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    .gallery-masonry {
+        column-count: 2;
+        column-gap: 1rem;
+    }
+}
+
+@media screen and (max-width: 900px) {
+    .gallery-masonry {
+        column-count: 1;
+        column-gap: 1rem;
+    }
+}
+
+
+/* .fav-btn {
+    margin-right: 1rem;
+    position: absolute;
+    bottom: 0.5rem;
+    left: 0.5rem;
+
+    font-size: larger;
+
+    color: red;
+}
+
+.contr-btn {
+    position: absolute;
+    margin-right: 1rem;
+    position: absolute;
+
+    bottom: 0.5rem;
+    right: 0.5rem;
+} */
+
 
 /* INFO POPUP */
 

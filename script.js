@@ -113,10 +113,13 @@ async function add_gallery_content(adding_for, should_recheck_database=false) {
         file_urls = JSON.parse(file_urls)
     }
 
+    popup("Please wait as I fill everything with the images!")
+
     for (url of file_urls) {
         var file_elem = document.createElement(element_type);
         file_elem.src = url;
         file_elem.alt = "¯\\_(ツ)_/¯ Why would I know?"
+        file_elem.classList.add("gallery-item-masonry")
         file_elem.loading = "lazy" // Let's not freeze the user's webpage alr @_@
         
         file_elem.onclick = async (event) => await click_copy(event.currentTarget)
@@ -133,7 +136,6 @@ async function add_gallery_content(adding_for, should_recheck_database=false) {
 
         gallery.appendChild(file_elem)
     }
-    
 }
 
 async function setCanvasImage(path) {
