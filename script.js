@@ -17,29 +17,12 @@ const RECHECK_DATABASE_THRESHOLD_MINS = RECHECK_DATABASE_THRESHOLD_HOURS * 60
 const RECHECK_DATABASE_THRESHOLD_SECS = RECHECK_DATABASE_THRESHOLD_MINS * 60
 const RECHECK_DATABASE_THRESHOLD_MS = RECHECK_DATABASE_THRESHOLD_SECS * 1000
 
+
 const sfx = new Audio('assets\\kiss.wav');
 document.body.onclick = async function (event) {
     console.log(event.x)
 
-    
-
     await sfx.play()
-}
-
-function popup(message, disappear_delay_ms=5000) {
-    var info_popup = document.getElementById("info-popup")
-
-    if (info_popup === null) {
-        alert(message)
-        return
-    }
-    info_popup.style.opacity = 1
-    info_popup.textContent = message
-
-    setTimeout(function () {
-        info_popup.style.opacity = 0
-        // info_popup.textContent = "Byebye :3"
-    }, disappear_delay_ms)
 }
 
 async function get_files_from_repo(url) {
@@ -349,6 +332,6 @@ async function download_all() {
     saveAs(content, "videos.zip"); // Uses FileSaver.js
 }
 
-download_all_btn = document.getElementById("download-all-btn")
-download_all_btn.onclick = download_all
+// download_all_btn = document.getElementById("download-all-btn")
+// download_all_btn.onclick = download_all
 

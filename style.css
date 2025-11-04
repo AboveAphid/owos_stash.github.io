@@ -35,13 +35,72 @@ main {
     margin-right: 20%;
 }
 
-.main-error {
+.main-other {
     margin-left: 25%;
     margin-right: 25%;
 }
 
-.main-error p {
+.main-other p {
     text-align: center;
+}
+
+.main-other img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 50%;
+}
+
+/* CONTRIBUTING */
+
+.answer-btns {
+    display: flex;
+    justify-content: center;
+
+    margin-top: 3rem;
+}
+
+.answer-btns a {
+    text-decoration: none;
+    padding: 0.75rem 2rem;
+    margin-right: 1rem;
+
+    color: white;
+    border-radius: 20px;
+}
+
+.answer-btns a:hover {
+    transform: scale(1.1) translateY(-5px);
+    transition: transform 0.2s;
+}
+
+#idontknow {
+    background-color: #412f2f;
+    border: 2px solid #5a3d3d;
+}
+
+#idontknow:hover {
+    border: 2px solid #6d4242;
+    background-color: #4b3232;
+}
+
+#iknow {
+    background-color: #32412f;
+    border: 2px solid #415a3d;
+}
+
+#iknow:hover {
+    border: 2px solid #426d45;
+    background-color: #324b32;
+}
+
+.inputting-data {
+    display: none;
+}
+
+.inputting-data input {
+    display: block;
+    margin: 0 auto;
 }
 
 /* TOP BTNS */
@@ -49,17 +108,21 @@ main {
 .btns {
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
 }
 
 .btns a {
     text-decoration: none;
     padding: 0.75rem 2rem;
     margin-right: 1rem;
+    margin-top: 0.7rem;
 
     color: white;
     background-color: #312f41;
     border: 2px solid #413d5a;
     border-radius: 20px;
+
+    max-height: fit-content;
 }
 
 .btns a:hover {
@@ -67,7 +130,6 @@ main {
     transition: transform 0.2s;
     border: 2px solid #42456d;
     background-color: #37324b;
-
 }
 
 /* THE HOLY DOWNLOAD ALL BTN */

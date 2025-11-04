@@ -1,0 +1,33 @@
+<!-- 
+Implicit Grant Flow is now deprecated for github OAuth!
+This means we can no longer access the access_token through this method breaking this current contribution system. 
+-->
+<!DOCTYPE html>
+<head>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <main class="main-other">
+        <h1>(OwO)'s Liminal Space</h1>
+
+        <p id="msg">
+            Please hold as we determine your authorisation...
+        </p>
+    </main>
+
+    <script>
+        const msg = document.getElementById("msg")
+
+        const params = new URLSearchParams(window.location.search);
+        const token = params.get('access_token');
+
+        if (token) {
+            localStorage.setItem("github_token", token)
+            msg.innerHTML = "<p>Success! Returning to contribution page...<br><a href='index.html'>Go back to home page</a></p>"
+            // window.location.href = "contribute.html"
+        } else {
+            msg.innerHTML = "<p>Crap we failed to login to github..<br><a href='index.html'>Go back to home page</a></p>"
+        }
+
+    </script>
+</body>
