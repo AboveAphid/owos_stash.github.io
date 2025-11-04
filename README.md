@@ -22,20 +22,12 @@ And of course with the help by every coder's dream fiancé ₊✩‧₊ *stackov
 
 <sup>This isn't just AI slop thank god "( - ⌓ - )</sup>
 
-## Setup
-This is mainly for me since I forget things easily #_#.
+## Notes for me
 
-Before committing run:
-    
-> These tasks occur based on what is specified in `package.json`'s ***scripts***
 
 *Host the website locally just to double check::*
-
-    npm run dev 
-
-*This builds the static website, converting the npm modules into webbrowser versions and so forth!*
-
-    npm run build 
+    python -m http.server 8000
+    
 
 ## Finally Notes
 
