@@ -26,10 +26,17 @@ class HashImage():
 
     ALGORITHMS = Literal["average", "color", "crop"]
 
-    def __init__(self, path_or_image) -> None:
+    def __init__(self, path_or_image, ignore_possible_pillow_warning=False) -> None:
+        """
+        If `ignore_possible_pillow_warning` is False I recommend you check `get_path` afterwards incase the file was converted and changed!
+        """
+
         if isinstance(path_or_image, str):
-            self.path = path_or_image
-            self.image = Image.open(path_or_image)
+            if ignore_possible_pillow_warning:
+                self.path = path_or_image
+                self.image = Image.open(path_or_image)
+            else:
+                self.image, self.path = self._open_image(path_or_image)
         elif isinstance(path_or_image, ImageFile):
             self.path = None
             self.image = path_or_image
@@ -37,6 +44,32 @@ class HashImage():
             raise ValueError("Imaged requires a PIL.ImageFile or path to an image!")
 
         self.av_hash = imagehash.average_hash(self.image)
+
+    def get_path(self) -> str:
+        """
+        Will return the path of the image (in case `_open_image` updated it!)
+        """
+        return self.path or ""
+
+    def _open_image(self, path: str) -> tuple[ImageFile, str]:
+        """
+        Will attempt to open the image, if it is found to be RGBA compatible but not using it, then it will change the file to RGBA and save it as a PNG.
+        
+        ***This stops the chance of Pillow's warning running:***
+            
+            `UserWarning: Palette images with Transparency expressed in bytes should be converted to RGBA images`
+        """
+        img = Image.open(path)
+        path_without_ext = os.path.splitext(path)[0]
+        if img.format == 'PNG':
+            # and is not RGBA
+            if img.mode != 'RGBA':
+                print(f"Fixing file (`{path}`) to RGBA...")
+                img.convert("RGBA").save(f"{path_without_ext}.png")
+                img = Image.open(f"{path_without_ext}.png")
+                if not os.path.isdir(path): # Just double check that we aren't removing a directory #_#
+                    os.remove(path) # Remove old file that wasn't converted
+        return img, path
 
     def difference(self, other_image, algorithm:ALGORITHMS="average") -> bool:
         match (algorithm):

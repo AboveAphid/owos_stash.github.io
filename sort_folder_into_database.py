@@ -37,6 +37,7 @@ move = Move(COPY_FILE).move
 os.makedirs(SORTED_FOLDER, exist_ok=True)
 os.makedirs(DUPLICATES, exist_ok=True)
 os.makedirs(IMAGES, exist_ok=True)
+os.makedirs(HEICS, exist_ok=True)
 os.makedirs(VIDEOS, exist_ok=True)
 os.makedirs(GIFS, exist_ok=True)
 os.makedirs(SVGS, exist_ok=True)
@@ -90,6 +91,9 @@ for image_path in track(folder_items, description="Sorting files..."):
 
     try:
         image = HashImage(full_path)
+        full_path = image.get_path()
+        file_root, file_name = os.path.split(full_path)
+        file_ext = os.path.splitext(file_name)[1].lower()
     except PIL.UnidentifiedImageError:
         move(full_path, UNKNOWN)
         continue

@@ -1,11 +1,3 @@
-const OWO_GITHUB_HELPER_CLIENT_ID = "Ov23lijdBqLPfOTJgN4E" // Safe to show client side, but sharing the client secret is a BIG NONO!! >:L
-
-function setup_contributing() {
-    contribute = document.getElementById("contribute-btn")
-    contribute.href = `https://github.com/login/oauth/authorize?client_id=${OWO_GITHUB_HELPER_CLIENT_ID}&redirect_uri=https://aboveaphid.github.io/owos_stash.github.io/auth.html&scope=public_repo&allow_signup=true&response_type=token`
-}
-setup_contributing()
-
 // Will be filled by the user through their answers
 var supplied_labels = []
 
@@ -47,7 +39,6 @@ const iknow_btn = document.getElementById("iknow")
 iknow_btn.onclick = label_image
 
 async function submit_image_labelling() {
-    console.log("ERHGYFHJDE")
     
     var creator = creator_name_input.value
     var social = creator_social_link_input.value
@@ -112,6 +103,8 @@ async function complete_and_submit_issue() {
         title: `Contributing to database (automatic)`,
         body: `Creator: ${tags.join(', ')}`
     };
+
+    "https://github.com/OWNER/REPO/issues/new?title=ISSUE_TITLE&body=ISSUE_BODY"
 
     const res = await fetch('https://api.github.com/repos/AboveAphid/owos_stash.github.io/issues', {
         method: 'POST',
