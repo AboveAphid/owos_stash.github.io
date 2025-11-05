@@ -1,63 +1,10 @@
 // Hello dirty code reader RAHH >:L
 
-const GITHUB_TOKEN = null
-
-const USERNAME = "AboveAphid"
-const REPO = "owos_stash.github.io"
-
-const DATABASE_URL = `https://api.github.com/repos/${USERNAME}/${REPO}/contents/Database`
-const IMAGES_URL = DATABASE_URL+"/Images"
-const VIDEOS_URL = DATABASE_URL+"/Videos"
-const GIFS_URL = DATABASE_URL+"/Gifs"
-const SVGS_URL = DATABASE_URL+"/SVGs"
-
-const RECHECK_DATABASE_THRESHOLD_DAYS = 1
-const RECHECK_DATABASE_THRESHOLD_HOURS = RECHECK_DATABASE_THRESHOLD_DAYS * 24
-const RECHECK_DATABASE_THRESHOLD_MINS = RECHECK_DATABASE_THRESHOLD_HOURS * 60
-const RECHECK_DATABASE_THRESHOLD_SECS = RECHECK_DATABASE_THRESHOLD_MINS * 60
-const RECHECK_DATABASE_THRESHOLD_MS = RECHECK_DATABASE_THRESHOLD_SECS * 1000
-
-
 const sfx = new Audio('assets\\kiss.wav');
 document.body.onclick = async function (event) {
     console.log(event.x)
 
     await sfx.play()
-}
-
-async function get_files_from_repo(url) {
-
-    var headers = new Headers({
-        "Accept": "application/vnd.github+json"
-    })
-
-    if (GITHUB_TOKEN) {
-        headers.append(
-            "Authorization", `token ${GITHUB_TOKEN}`,
-        );
-    }
-
-
-    var res = await fetch(url, {
-        headers: headers
-    })
-    
-    var file_urls = []
-    
-    if (res.ok) {
-        var files = await res.json()
-        for (const f of files) {
-            file_urls.push(f.download_url)
-        }
-    } else {
-        popup("Could not access database! Redirecting to error page...")
-
-        setTimeout(function () {
-            window.location.href = "./error.html"
-        }, 5000)
-    }
-
-    return file_urls
 }
 
 
@@ -101,17 +48,17 @@ async function add_gallery_content(adding_for, should_recheck_database=false) {
 
     // Check if we have them saved in local storage - to save on rate limiting from github
     var file_urls = localStorage.getItem(localStorage_urls_key)
-    if (file_urls === null || file_urls == "[]" || should_recheck_database) {
-        popup(`Retrieving ${adding_for} from database...`)
-        file_urls = await get_files_from_repo(content_url)
+    // if (file_urls === null || file_urls == "[]" || should_recheck_database) {
+    //     popup(`Retrieving ${adding_for} from database...`)
+    //     file_urls = await get_files_from_repo(content_url)
 
-        // Update local storage vars
-        localStorage.setItem(localStorage_urls_key, JSON.stringify(file_urls))
-        localStorage.setItem("bk_last_retrieval", Date.now().toString());
-    } else {
-        popup(`Using local storage ${adding_for} urls...`)
-        file_urls = JSON.parse(file_urls)
-    }
+    //     // Update local storage vars
+    //     localStorage.setItem(localStorage_urls_key, JSON.stringify(file_urls))
+    //     localStorage.setItem("bk_last_retrieval", Date.now().toString());
+    // } else {
+    popup(`Using local storage ${adding_for} urls...`)
+    file_urls = JSON.parse(file_urls)
+    // }
 
     popup("Please wait as I fill everything with the images!")
 
@@ -265,33 +212,32 @@ setTimeout(async () => {
     // Check if it is time for another database check - to keep files uptodate even if we have them in local storage!!
     /////////////////////////
     
-
-    const now_timestamp = Date.now();
-    var last_retrieval_timestamp = localStorage.getItem("bk_last_retrieval")
-    
-    if (last_retrieval_timestamp === null) {
-        localStorage.setItem("bk_last_retrieval", now_timestamp.toString())
-    } else {
-        last_retrieval_timestamp = parseInt(last_retrieval_timestamp)
-    }
-
-    const time_since_retrieval_ms = now_timestamp - last_retrieval_timestamp
-
-    var should_recheck_database = false
-    if (time_since_retrieval_ms >= RECHECK_DATABASE_THRESHOLD_MS) {
-        should_recheck_database = true
+    var should_recheck_database = do_we_recheck_database()
+    if (should_recheck_database) {
+        await retrieve_from_database()
     }
 
     /////////////////////////
     // IMAGES
     /////////////////////////
 
-    await add_gallery_content("images", should_recheck_database)
-    await add_gallery_content("videos", should_recheck_database)
-    await add_gallery_content("gifs", should_recheck_database)
-    await add_gallery_content("svgs", should_recheck_database)
-
+    await add_gallery_content("images")
+    await add_gallery_content("videos")
+    await add_gallery_content("gifs")
+    await add_gallery_content("svgs")
 }, 10)
+
+
+
+
+
+
+
+
+
+
+
+/*
 
 async function download_all() {
     const zip = new JSZip();
@@ -337,3 +283,4 @@ async function download_all() {
 // download_all_btn = document.getElementById("download-all-btn")
 // download_all_btn.onclick = download_all
 
+*/

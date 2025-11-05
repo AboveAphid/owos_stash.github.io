@@ -13,6 +13,26 @@ const idk_btn = document.getElementById("idontknow")
 const submit_btn = document.getElementById("submit-btn")
 const submit_contribute_btn = document.getElementById("finish-contribution")
 
+setTimeout(async () => {
+    // Mainly in case they open contribute.html before index.html, unlikely but still possible @_@
+
+    /////////////////////////
+    // LOCAL STORAGE CHECK
+    // Check if it is time for another database check - to keep files uptodate even if we have them in local storage!!
+    /////////////////////////
+    
+    var should_recheck_database = do_we_recheck_database()
+    if (should_recheck_database) {
+        await retrieve_from_database()
+    }
+})
+
+var database_image_urls = localStorage.getItem("")
+
+function open_new_tab(url) {
+    window.open(url, '_blank').focus()
+}
+
 function next_image() {
     // answer_btns_div.style.display = "block"
     iknow_btn.style.display = "block"
@@ -43,13 +63,6 @@ async function submit_image_labelling() {
     var creator = creator_name_input.value
     var social = creator_social_link_input.value
 
-    var user_github_login = localStorage.getItem("github-token")
-
-    if (!user_github_login) {
-        popup("You haven't logged into github yet! Please follow the steps above to contribute O.O")
-        return
-    }
-
     if (!creator) {
         popup("Please supply the creator of the image!")
     }
@@ -75,15 +88,9 @@ submit_btn.onclick = submit_image_labelling
 
 async function complete_and_submit_issue() {
     console.log("Hello!")
-    var user_github_login = localStorage.getItem("github-token")
-
-    if (!user_github_login) {
-        popup("You haven't logged into github yet! Please follow the steps above to contribute O.O")
-        return
-    }
 
     if (supplied_labels.length <= 0) {
-        popup("You haven't contributed anything silly!")
+        popup("You haven't contributed anything yet silly!")
         return
     }
 
@@ -95,24 +102,17 @@ async function complete_and_submit_issue() {
             "social_link": `${label.creator_social}`
         }
     }
-    var issue_body = JSON.stringify(body)
-
-    console.log(string_body)
 
     const issue = {
         title: `Contributing to database (automatic)`,
-        body: `Creator: ${tags.join(', ')}`
+        body: JSON.stringify(body, null, 4).replaceAll("    ", "%0D%0A    ")
     };
 
-    "https://github.com/OWNER/REPO/issues/new?title=ISSUE_TITLE&body=ISSUE_BODY"
+    popup("You are about to be redirected to github...")
 
-    const res = await fetch('https://api.github.com/repos/AboveAphid/owos_stash.github.io/issues', {
-        method: 'POST',
-        headers: {
-        'Authorization': `token ${user_github_login}`,
-        'Accept': 'application/vnd.github.v3+json'
-        },
-        body: issue_body
-    });
+    setTimeout(
+        () => open_new_tab(`https://github.com/${USERNAME}/${REPO}/issues/new?title=${issue.title}&body=${issue.body}`),
+        4000
+    )
 }
 submit_contribute_btn.onclick = complete_and_submit_issue;
