@@ -46,31 +46,44 @@ async function add_gallery_content(adding_for, should_recheck_database=false) {
     var gallery = document.getElementById(gallery_id)
     console.log(`Gallery: ${gallery_id} | ${gallery}`)
 
-    // Check if we have them saved in local storage - to save on rate limiting from github
     var file_urls = localStorage.getItem(localStorage_urls_key)
-    // if (file_urls === null || file_urls == "[]" || should_recheck_database) {
-    //     popup(`Retrieving ${adding_for} from database...`)
-    //     file_urls = await get_files_from_repo(content_url)
-
-    //     // Update local storage vars
-    //     localStorage.setItem(localStorage_urls_key, JSON.stringify(file_urls))
-    //     localStorage.setItem("bk_last_retrieval", Date.now().toString());
-    // } else {
     popup(`Using local storage ${adding_for} urls...`)
     file_urls = JSON.parse(file_urls)
-    // }
 
     popup("Please wait as I fill everything with the images!")
 
     for (url of file_urls) {
+        // Div that will contain the item
+        var gallery_item_elem = document.createElement("div")
+        gallery_item_elem.classList.add("gallery-item-masonry")
+
+        // Actual image/video/gif/svg
         var file_elem = document.createElement(element_type);
         file_elem.src = url;
         file_elem.alt = "¯\\_(ツ)_/¯ Why would I know?"
-        file_elem.classList.add("gallery-item-masonry")
         file_elem.loading = "lazy" // Let's not freeze the user's webpage alr @_@
         
+        // Credit to the creator of the image
+        var creator_bubble = document.createElement("p")
+        creator_bubble.classList.add("creator-credit-bubble")
+        
+        // Simulate known users
+        var creator_name = "N/A" 
+        if (Math.random() > 0.5) {
+            var creator_name = "<Creator Name>"
+        } 
+        creator_bubble.innerText = `${creator_name}`
+        if (creator_name != "N/A") {
+            creator_bubble.style.background = "#3c6850ff"
+        }
+
+
+
+
+        // Allow copying/downloading on click
         file_elem.onclick = async (event) => await click_copy(event.currentTarget)
 
+        // Video specific customisation
         if (element_type === "video") {
             // image_elem.controls = true;
             file_elem.loop = true;
@@ -80,8 +93,10 @@ async function add_gallery_content(adding_for, should_recheck_database=false) {
             file_elem.preload = "metadata"; // Only download video metadata at the start so that we don't freeze the tab!
         }
 
-
-        gallery.appendChild(file_elem)
+        // Add gallery item to gallery!
+        gallery_item_elem.appendChild(file_elem)
+        gallery_item_elem.appendChild(creator_bubble)
+        gallery.appendChild(gallery_item_elem)
     }
 }
 
