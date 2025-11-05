@@ -35,13 +35,13 @@ main {
     margin-right: 20%;
 }
 
+main p {
+    text-align: center;
+}
+
 .main-other {
     margin-left: 25%;
     margin-right: 25%;
-}
-
-.main-other p {
-    text-align: center;
 }
 
 .main-other img {
