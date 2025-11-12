@@ -20,6 +20,18 @@ VIDEO_EXTENSIONS = [
     ".f4v", ".f4p", ".f4a", ".f4b", ".mod", ".ts", ".m2ts", ".mts"
 ]
 
+GIF_EXTENSIONS = [
+    ".gif"
+]
+
+SVG_EXTENSIONS = [
+    ".svg"
+]
+
+HEIC_EXTENSIONS = [ # NOTE: IMAGE_EXTENSIONS also include these extensions!!
+    ".heif", ".heic"
+]
+
 COPY_FILE = False # If true it move the file through copying rather than just moving it
 
 DATABASE_FOLDER = "Database" # f"Sorted-{IMAGE_FOLDER}"
