@@ -1,30 +1,9 @@
 import time, os, PIL
 from rich.progress import track
-from utils import HashImage, Move, support_apple_files, check_if_corrupted_file, APPLE_FILE_EXTENSIONS, IMAGE_EXTENSIONS, VIDEO_EXTENSIONS
+from utils import HashImage, Move, support_apple_files, check_if_corrupted_file, APPLE_FILE_EXTENSIONS, IMAGE_EXTENSIONS, VIDEO_EXTENSIONS, \
+    make_database_folders, LIMBO_FILES_FOLDER, COPY_FILE, DUPLICATES, VIDEOS, IMAGES, HEICS, SVGS, GIFS, DIRECTORIES, CORRUPTED, UNKNOWN
 
 st = time.time()
-
-################################
-# CONFIGURE
-################################
-
-IMAGE_FOLDER = "BoykisserDump"
-SORTED_FOLDER = "Database" # f"Sorted-{IMAGE_FOLDER}"
-
-COPY_FILE = False # If true it move the file through copying rather than just moving it
-
-DUPLICATES = os.path.join(SORTED_FOLDER, "Duplicates")
-VIDEOS = os.path.join(SORTED_FOLDER, "Videos")
-IMAGES = os.path.join(SORTED_FOLDER, "Images")
-HEICS = os.path.join(SORTED_FOLDER, "HEIC Images")
-SVGS = os.path.join(SORTED_FOLDER, "SVGs")
-GIFS = os.path.join(SORTED_FOLDER, "Gifs")
-DIRECTORIES = os.path.join(SORTED_FOLDER, "Directories")
-CORRUPTED = os.path.join(SORTED_FOLDER, "Corrupted")
-UNKNOWN = os.path.join(SORTED_FOLDER, "Unknown")
-
-
-
 
 ################################
 # PREPARE FOLDERS + READ STUFF
@@ -34,24 +13,9 @@ support_apple_files()
 
 move = Move(COPY_FILE).move
 
-os.makedirs(SORTED_FOLDER, exist_ok=True)
-os.makedirs(DUPLICATES, exist_ok=True)
-os.makedirs(IMAGES, exist_ok=True)
-os.makedirs(HEICS, exist_ok=True)
-os.makedirs(VIDEOS, exist_ok=True)
-os.makedirs(GIFS, exist_ok=True)
-os.makedirs(SVGS, exist_ok=True)
-os.makedirs(DIRECTORIES, exist_ok=True)
-os.makedirs(UNKNOWN, exist_ok=True)
-os.makedirs(CORRUPTED, exist_ok=True)
+make_database_folders()
 
-folder_items = os.listdir(IMAGE_FOLDER)
-
-# mapped_dirs = {
-#     # EXTS: DIRECTORY_NAME
-#     IMAGE_EXTENSIONS: IMAGES,
-
-# }
+folder_items = os.listdir(LIMBO_FILES_FOLDER)
 
 ################################
 # SORT
@@ -60,7 +24,7 @@ folder_items = os.listdir(IMAGE_FOLDER)
 seen_hashes = {}
 
 for image_path in track(folder_items, description="Sorting files..."):
-    full_path = os.path.join(IMAGE_FOLDER, image_path)
+    full_path = os.path.join(LIMBO_FILES_FOLDER, image_path)
     file_root, file_name = os.path.split(full_path)
     file_ext = os.path.splitext(file_name)[1].lower()
     is_directory = os.path.isdir(full_path)

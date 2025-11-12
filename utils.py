@@ -20,6 +20,43 @@ VIDEO_EXTENSIONS = [
     ".f4v", ".f4p", ".f4a", ".f4b", ".mod", ".ts", ".m2ts", ".mts"
 ]
 
+COPY_FILE = False # If true it move the file through copying rather than just moving it
+
+DATABASE_FOLDER = "Database" # f"Sorted-{IMAGE_FOLDER}"
+
+LIMBO_FOLDER = "Limbo"
+LIMBO_FILES_FOLDER = os.path.join(LIMBO_FOLDER, "Files")
+
+DUPLICATES = os.path.join(DATABASE_FOLDER, "Duplicates")
+VIDEOS = os.path.join(DATABASE_FOLDER, "Videos")
+IMAGES = os.path.join(DATABASE_FOLDER, "Images")
+HEICS = os.path.join(DATABASE_FOLDER, "HEIC Images")
+SVGS = os.path.join(DATABASE_FOLDER, "SVGs")
+GIFS = os.path.join(DATABASE_FOLDER, "Gifs")
+DIRECTORIES = os.path.join(DATABASE_FOLDER, "Directories")
+CORRUPTED = os.path.join(DATABASE_FOLDER, "Corrupted")
+UNKNOWN = os.path.join(DATABASE_FOLDER, "Unknown")
+LABELS = os.path.join(DATABASE_FOLDER, "labels.json")
+
+def make_database_folders(exist_ok=True):
+    os.makedirs(LIMBO_FOLDER, exist_ok=exist_ok)
+    os.makedirs(LIMBO_FILES_FOLDER, exist_ok=exist_ok)
+
+    os.makedirs(DATABASE_FOLDER, exist_ok=exist_ok)
+    os.makedirs(DUPLICATES, exist_ok=exist_ok)
+    os.makedirs(IMAGES, exist_ok=exist_ok)
+    os.makedirs(HEICS, exist_ok=exist_ok)
+    os.makedirs(VIDEOS, exist_ok=exist_ok)
+    os.makedirs(GIFS, exist_ok=exist_ok)
+    os.makedirs(SVGS, exist_ok=exist_ok)
+    os.makedirs(DIRECTORIES, exist_ok=exist_ok)
+    os.makedirs(UNKNOWN, exist_ok=exist_ok)
+    os.makedirs(CORRUPTED, exist_ok=exist_ok)
+
+    if not os.path.exists(LABELS):
+        with open(LABELS, 'w') as f:
+            f.write("{}")
+
 class HashImage():
     path: str | None
     image: ImageFile

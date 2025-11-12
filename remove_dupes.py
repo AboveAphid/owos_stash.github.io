@@ -1,6 +1,7 @@
 import time, os, PIL
 from rich.progress import track
-from utils import HashImage, Move, support_apple_files, check_if_corrupted_file, APPLE_FILE_EXTENSIONS, IMAGE_EXTENSIONS, VIDEO_EXTENSIONS
+from utils import HashImage, Move, support_apple_files, check_if_corrupted_file, APPLE_FILE_EXTENSIONS, IMAGE_EXTENSIONS, VIDEO_EXTENSIONS, \
+    make_database_folders, COPY_FILE, DUPLICATES, VIDEOS, IMAGES, HEICS, SVGS, GIFS, DIRECTORIES, CORRUPTED, UNKNOWN
 
 st = time.time()
 
@@ -8,19 +9,6 @@ st = time.time()
 # CONFIGURE
 ################################
 
-DATABASE_FOLDER = "Database"
-
-COPY_FILE = False # If true it move the file through copying rather than just moving it
-
-DUPLICATES = os.path.join(DATABASE_FOLDER, "Duplicates")
-VIDEOS = os.path.join(DATABASE_FOLDER, "Videos")
-IMAGES = os.path.join(DATABASE_FOLDER, "Images")
-HEICS = os.path.join(DATABASE_FOLDER, "HEIC Images")
-SVGS = os.path.join(DATABASE_FOLDER, "SVGs")
-GIFS = os.path.join(DATABASE_FOLDER, "Gifs")
-DIRECTORIES = os.path.join(DATABASE_FOLDER, "Directories")
-CORRUPTED = os.path.join(DATABASE_FOLDER, "Corrupted")
-UNKNOWN = os.path.join(DATABASE_FOLDER, "Unknown")
 
 HASHABLE_FILES_FOLDERS = [IMAGES, HEICS]
 
@@ -29,25 +17,9 @@ HASHABLE_FILES_FOLDERS = [IMAGES, HEICS]
 ################################
 
 support_apple_files()
+make_database_folders()
 
 move = Move(COPY_FILE).move
-
-os.makedirs(DATABASE_FOLDER, exist_ok=True)
-os.makedirs(DUPLICATES, exist_ok=True)
-os.makedirs(IMAGES, exist_ok=True)
-os.makedirs(HEICS, exist_ok=True)
-os.makedirs(VIDEOS, exist_ok=True)
-os.makedirs(GIFS, exist_ok=True)
-os.makedirs(SVGS, exist_ok=True)
-os.makedirs(DIRECTORIES, exist_ok=True)
-os.makedirs(UNKNOWN, exist_ok=True)
-os.makedirs(CORRUPTED, exist_ok=True)
-
-# mapped_dirs = {
-#     # EXTS: DIRECTORY_NAME
-#     IMAGE_EXTENSIONS: IMAGES,
-
-# }
 
 ################################
 # SORT
