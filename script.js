@@ -8,7 +8,7 @@ document.body.onclick = async function (event) {
 }
 
 
-async function add_gallery_content(adding_for, should_recheck_database=false) {
+async function add_gallery_content(adding_for, labels) {
     switch (adding_for) {
         case 'images':
             var gallery_id = "image-gallery"
@@ -56,29 +56,34 @@ async function add_gallery_content(adding_for, should_recheck_database=false) {
         // Div that will contain the item
         var gallery_item_elem = document.createElement("div")
         gallery_item_elem.classList.add("gallery-item-masonry")
+        gallery.appendChild(gallery_item_elem)
 
         // Actual image/video/gif/svg
         var file_elem = document.createElement(element_type);
         file_elem.src = url;
+
         file_elem.alt = "¯\\_(ツ)_/¯ Why would I know?"
         file_elem.loading = "lazy" // Let's not freeze the user's webpage alr @_@
+        gallery_item_elem.appendChild(file_elem)
         
+        // Get hash of file
+        var hash = get_hash_from_url(url)
+
         // Credit to the creator of the image
         var creator_bubble = document.createElement("p")
         creator_bubble.classList.add("creator-credit-bubble")
+        gallery_item_elem.appendChild(creator_bubble)
         
         // Simulate known users
-        var creator_name = "N/A" 
-        if (Math.random() > 0.5) {
-            var creator_name = "<Creator Name>"
-        } 
+        var file_label = get_label(hash)
+        var creator_name = "N/A"
+        if (file_label) {
+            creator_name = file_label.creator.display
+        }
         creator_bubble.innerText = `${creator_name}`
         if (creator_name != "N/A") {
             creator_bubble.style.background = "#3c6850ff"
         }
-
-
-
 
         // Allow copying/downloading on click
         file_elem.onclick = async (event) => await click_copy(event.currentTarget)
@@ -93,10 +98,9 @@ async function add_gallery_content(adding_for, should_recheck_database=false) {
             file_elem.preload = "metadata"; // Only download video metadata at the start so that we don't freeze the tab!
         }
 
+
         // Add gallery item to gallery!
-        gallery_item_elem.appendChild(file_elem)
-        gallery_item_elem.appendChild(creator_bubble)
-        gallery.appendChild(gallery_item_elem)
+        
     }
 }
 
