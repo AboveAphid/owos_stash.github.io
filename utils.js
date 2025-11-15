@@ -16,6 +16,13 @@ const RECHECK_DATABASE_THRESHOLD_MINS = RECHECK_DATABASE_THRESHOLD_HOURS * 60
 const RECHECK_DATABASE_THRESHOLD_SECS = RECHECK_DATABASE_THRESHOLD_MINS * 60
 const RECHECK_DATABASE_THRESHOLD_MS = RECHECK_DATABASE_THRESHOLD_SECS * 1000
 
+const IMAGE_EXTENSIONS = [
+    ".jpg", ".jpeg", ".png", ".bmp", ".tiff", ".tif", ".heif",
+    ".heic", ".webp", ".avif", ".raw", ".cr2", ".nef",
+    ".orf", ".sr2", ".eps", ".jp2", ".jpx", ".pcx"
+]
+
+
 async function get_files_from_repo(url) {
 
     var headers = new Headers({
@@ -140,7 +147,6 @@ function get_label(hash) {
     const labels = JSON.parse(localStorage.getItem("bk_labels") || "[]")
 
     try {
-        console.log("Out:", labels[hash])
         return labels[hash]
     } catch (error) {
         return null;
@@ -176,4 +182,142 @@ async function retrieve_from_database() {
 
     
     localStorage.setItem("bk_last_retrieval", Date.now().toString());
+}
+
+async function setCanvasImage(path) {
+    return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.crossOrigin = "anonymous"; // Stops Tainted canvases Security Error
+        const c = document.createElement("canvas");
+        const ctx = c.getContext("2d");
+
+        img.onload = function () {
+        c.width = this.naturalWidth;
+        c.height = this.naturalHeight;
+        ctx.drawImage(this, 0, 0);
+        c.toBlob((blob) => {
+            resolve(blob);
+        }, "image/png");
+        };
+        img.src = path;
+    })
+}
+
+async function copy_text(text) {
+    await navigator.clipboard.writeText(text)
+        .then(() => popup("Copied link to item!", 3000))
+        .catch(() => popup("Failed to copy!", 3000));
+}
+
+async function copy_image(elem, force_convert_to_png=false, force_convert_simple_to_png=true) {
+    // force_convert_simple_to_png - "simple"s are images like jpegs, webp which don't have 
+    // multiple frames so it is probably best we just convert them to PNGs and copy that, 
+    // rather than a URL 
+
+    if (elem.src.endsWith(".png")) {
+        let res = await fetch(elem.src)
+
+        if (res.ok) {
+            var blob = await res.blob()
+        }
+    } else if (force_convert_to_png) {
+        // It will be converted to an PNG lossing any extra frames (videos/gifs), or resizing properties (svgs/etc)
+        blob = await setCanvasImage(elem.src);
+    } else if (force_convert_simple_to_png) {
+        var is_a_norm_image = false;
+        IMAGE_EXTENSIONS.forEach((ext) => {
+            if (!is_a_norm_image && elem.src.endsWith(ext)) {
+                is_a_norm_image = true;
+                return;
+            }
+        })
+        if (is_a_norm_image) {
+            blob = await setCanvasImage(elem.src);
+        } else {
+            // Copy link to file - it is probably a video
+            copy_text(elem.src)
+            return;
+        }
+    }
+
+    const clipboardItem = new ClipboardItem({
+        [blob.type]: blob // blob.type should equal 'image/png' as that is the only thing the browser can support!
+    })
+
+    await navigator.clipboard.write([clipboardItem])
+        .then(() => popup("Copied to clipboard!", 3000))
+        .catch((err) => popup(`Failed to copy! ${err}`, 5000))
+            
+}
+
+async function download_file(elem, backup_download_name="download.unknown") {
+    let res = await fetch(elem.src)
+
+    if (!res.ok) {
+        popup("Failed to download file!")
+        return false;
+    }
+
+    // Download Video
+    var blob = await res.blob()
+    var filename = elem.src.split("/").pop() || backup_download_name
+
+    console.log(filename)
+
+    const a_download_elem = document.createElement("a")
+    a_download_elem.href = URL.createObjectURL(blob);
+    a_download_elem.download = filename;
+    document.body.appendChild(a_download_elem);
+    a_download_elem.click();
+
+    URL.revokeObjectURL(a_download_elem.href);
+    a_download_elem.remove();
+    popup("Downloaded file!", 3000)
+
+    return true;
+}
+
+async function download_or_copy_src(elem, backup_download_name="download.unknown") {
+    if (!download_file(elem, backup_download_name)) {
+        // Copy video link instead of downloading
+        await copy_text(elem.src)
+    }
+}
+
+async function click_copy_or_download(elem) {
+    switch (elem.nodeName) {
+        case "DIV":
+            await navigator.clipboard.writeText(elem.innerText)
+                .then(() => popup("Copied!", 3000))
+                .catch(() => popup("Failed to copy!", 3000));
+            
+            break;
+
+        case "IMG":
+            copy_image(elem)
+            break;
+
+        case "VIDEO":
+            download_or_copy_src(elem, "video.mp4")
+            break;
+    }
+}
+
+async function click_copy_or_src(params) {
+    switch (elem.nodeName) {
+        case "DIV":
+            await navigator.clipboard.writeText(elem.innerText)
+                .then(() => popup("Copied!", 3000))
+                .catch(() => popup("Failed to copy!", 3000));
+            
+            break;
+
+        case "IMG":
+            copy_image(elem)
+            break;
+
+        case "VIDEO":
+            download_or_copy_src(elem, "video.mp4")
+            break;
+    }
 }

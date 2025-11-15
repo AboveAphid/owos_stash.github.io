@@ -44,7 +44,7 @@ with open(LABELS)as f:
     labels = json.load(f)
 
 def make_label(
-        filename, tags=[], creator_display="N/A", nsfw=False,
+        hash, filename, tags=[], creator_display="N/A", nsfw=False,
         # Social links:
         bsky=None, discord=None, reddit=None, twitter=None, twitch=None, youtube=None,
         original_post_link=None, found_from_link=None   
@@ -110,7 +110,7 @@ for database_folder in [IMAGES]: # NOTE: Currently only hashing images works
             hash = filename_wo_ext.removeprefix("bk_")
 
             if not is_registered(hash):
-                make_label(filename)
+                make_label(hash, filename)
             continue
 
         ### HASH IMAGE
@@ -133,7 +133,7 @@ for database_folder in [IMAGES]: # NOTE: Currently only hashing images works
 
         ### MAKE NEW LABEL ENTRY
 
-        make_label(hash_filename)
+        make_label(hash, hash_filename)
 
 with open('Database\\labels.json', 'w')as f:
     json.dump(labels, f, indent=4)
