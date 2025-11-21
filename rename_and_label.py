@@ -118,7 +118,7 @@ for database_folder in [IMAGES, SVGS, GIFS]: # NOTE: Currently only hashing imag
         ### HASH IMAGE
         if file_ext in IMAGE_EXTENSIONS:
             with Image.open(full_path) as img:
-                hash = average_hash(img)
+                hash = str(average_hash(img))
         else:
             # bf = Boy Failure - We failed to generate a hash for the image so it is now a boy failure :L
             hash = f"bf_{file_ext_no_dot}-{filename_wo_ext}-{random_string(length=8)}" # Set hash to filename if we cannot hash it ourselves
