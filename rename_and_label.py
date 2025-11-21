@@ -103,6 +103,7 @@ for database_folder in [IMAGES, SVGS, GIFS]: # NOTE: Currently only hashing imag
 
         full_path = os.path.join(database_folder, filename)
         filename_wo_ext, file_ext = os.path.splitext(filename)
+        file_ext = file_ext.lower()
         file_ext_no_dot = file_ext.removeprefix(".")
 
         ### SKIP ANY WE HAVE DONE BEFORE

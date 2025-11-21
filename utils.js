@@ -119,6 +119,10 @@ function get_hash_from_url(url) {
     var filename = null
     if (urlParams.pathname.includes("/Database/Images/")) {
         filename = urlParams.pathname.split("/Database/Images/").pop()
+    } else if (urlParams.pathname.includes("/Database/SVGs/")) {
+        filename = urlParams.pathname.split("/Database/SVGs/").pop()
+    } else if (urlParams.pathname.includes("/Database/Gifs/")) {
+        filename = urlParams.pathname.split("/Database/Gifs/").pop()
     }
 
     if (!filename || !filename.startsWith("bk_")) {
