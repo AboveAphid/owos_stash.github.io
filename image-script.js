@@ -12,14 +12,16 @@ async function main() {
     console.log("Image id:", image_id)
     console.log("Label:", label)
     
-    const parent_folder = label["parent"] || ""
+    // const parent_folder = label["parent"] || ""
+    const root = label["root"] || ""
     const filename = label["filename"] || ""
     const tags = label["tags"] || []
     const creator_display = label["creator"]["display"] || "N/A"
     const creator_socials = label["creator"]["platforms"] || {}
 
     // Add image
-    const file_url = `https://raw.githubusercontent.com/${USERNAME}/${REPO}/main/Database/${parent_folder}/${filename}`
+    // const file_url = `https://raw.githubusercontent.com/${USERNAME}/${REPO}/main/Database/${parent_folder}/${filename}`
+    const file_url = `https://raw.githubusercontent.com/${USERNAME}/${REPO}/main/${root}/${filename}`
     img.src = file_url
 
     // Set title
