@@ -1,4 +1,4 @@
-import imagehash, shutil, os
+import imagehash, shutil, os, random, string
 from pillow_heif import register_heif_opener
 from PIL.ImageFile import ImageFile
 from typing import Literal
@@ -179,3 +179,5 @@ def check_if_corrupted_file(path):
     except (IOError, OSError, Image.DecompressionBombError):
         return True
     
+def random_string(length=9) -> str:
+    return ''.join(random.choices(string.ascii_letters+string.digits, k=length))

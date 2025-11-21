@@ -1,7 +1,7 @@
 import os, json
 from PIL import Image
 from imagehash import average_hash
-from utils import support_apple_files, make_database_folders, \
+from utils import support_apple_files, make_database_folders, random_string, \
                     LABELS, IMAGES, IMAGE_EXTENSIONS, VIDEOS, VIDEO_EXTENSIONS, GIFS, GIF_EXTENSIONS, SVGS, SVG_EXTENSIONS, UNKNOWN
 from rich.progress import track
 
@@ -97,12 +97,13 @@ def is_registered(hash):
     except KeyError:
         return False
 
-for database_folder in [IMAGES]: # NOTE: Currently only hashing images works
-    for filename in track(os.listdir(database_folder), "Processing..."):
+for database_folder in [IMAGES, SVGS, GIFS]: # NOTE: Currently only hashing images works
+    for filename in track(os.listdir(database_folder), f"Processing `{database_folder}`"):
         ### GET FILE DATA
 
         full_path = os.path.join(database_folder, filename)
         filename_wo_ext, file_ext = os.path.splitext(filename)
+        file_ext_no_dot = file_ext.removeprefix(".")
 
         ### SKIP ANY WE HAVE DONE BEFORE
 
@@ -114,12 +115,15 @@ for database_folder in [IMAGES]: # NOTE: Currently only hashing images works
             continue
 
         ### HASH IMAGE
-
-        with Image.open(full_path) as img:
-            hash = average_hash(img)
+        if file_ext in IMAGE_EXTENSIONS:
+            with Image.open(full_path) as img:
+                hash = average_hash(img)
+        else:
+            # bf = Boy Failure - We failed to generate a hash for the image so it is now a boy failure :L
+            hash = f"bf_{file_ext_no_dot}-{filename_wo_ext}-{random_string(length=8)}" # Set hash to filename if we cannot hash it ourselves
+            # Note: The hash will still have 'bk_' at the start! Even if we have 'bf_'
 
         ### RENAME
-
         hash_filename = f"bk_{hash}{file_ext}"
 
         if filename == hash_filename:
