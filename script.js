@@ -88,7 +88,7 @@ async function add_gallery_content(adding_for, labels) {
         file_elem.hash = hash // Assign it to this specific element - so that we don't have to worry about the changing hash variable
 
         // Allow copying/downloading on click
-        file_elem.onclick = async (event) => window.location.href = `./image.html?image_id=${event.currentTarget.hash}`
+        file_elem.onclick = async (event) => window.open(`./image.html?image_id=${event.currentTarget.hash}`, '_blank').focus();
 
         // Video specific customisation
         if (element_type === "video") {
