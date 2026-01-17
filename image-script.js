@@ -19,6 +19,9 @@ async function main() {
     const creator_display = label["creator"]["display"] || "N/A"
     const creator_socials = label["creator"]["platforms"] || {}
     const note = label["note"] || ""
+    const original_post_link = label["original_post_link"]
+    const found_from_link = label["found_from_link"]
+
 
     // Add image
     // const file_url = `https://raw.githubusercontent.com/${USERNAME}/${REPO}/main/Database/${parent_folder}/${filename}`
@@ -76,6 +79,13 @@ async function main() {
 
     if (note) {
         description_elem.innerHTML += `<br>There is a note on this image! It says: <br><div class="note">${note}</div>`
+    }
+
+    if (original_post_link) {
+        description_elem.innerHTML += `<br>Originally this artwork was posted <a href=${found_from_link}>here!</a>`
+    }
+    if (found_from_link) {
+        description_elem.innerHTML += `<br>This artwork was found <a href=${found_from_link}>here!</a> <i>But note this may not be the original place the artwork was published!</i>`
     }
     
     // Go to artist btn
