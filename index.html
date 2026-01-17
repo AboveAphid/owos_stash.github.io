@@ -1,50 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>OwO</title>
     <link rel="icon" type="image/x-icon" href="./assets/logo.svg">
     <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="new_style.css" />
 
     <!-- FOR DISCORD -->
     <meta property="og:site_name" content="OWO's Secret Stash">
     <meta property="og:title" content="See bajilions of Boykisser images!" />
     <meta property="og:description" content="Thanks for spreading the word of this cool & useful website!" />
     <meta property="og:url" content="https://aboveaphid.github.io/owos_stash.github.io/" />
-    <meta property="og:image" content="https://raw.githubusercontent.com/AboveAphid/owos_stash.github.io/main/Database/Images/fc2799ef643cc7a6ebbab3bcc3e43f62.jpg" />
+    <meta property="og:image"
+        content="https://raw.githubusercontent.com/AboveAphid/owos_stash.github.io/main/Database/Images/fc2799ef643cc7a6ebbab3bcc3e43f62.jpg" />
 
 </head>
+
 <body>
-
-    <header>
-        <h1>(OwO)'s Secret Stash</h1>
-    </header>
-
     <section class="info">
         <div id="info-popup" class="info-popup"></div>
     </section>
 
+    <div class="sidebar">
+        <ul>
+            <li>
+                <a href="#top">
+                    <img src="assets/logo.svg">
+                </a>
+                <span class="tooltip">OWO's Secret Stash</span>
+            </li>
+            <li>
+                <a href="#imabgess">
+                    <img src="assets/icons/image.svg">
+                </a>
+                <span class="tooltip">✩ Images ✩</span>
+            </li>
+            <li>
+                <a href="#vids">
+                    <img src="assets/icons/video_library.svg">
+                </a>
+                <span class="tooltip">Videos 0.o</span>
+            </li>
+            <li>
+                <a href="#gifs_not_jifs">
+                    <img src="assets/icons/animated_images.svg">
+                </a>
+                <span class="tooltip">GIFS!!</span>
+            </li>
+            <li>
+                <a href="#svgs">
+                    <img src="assets/icons/subject.svg">
+                </a>
+                <span class="tooltip">SVGs</span>
+            </li>
+            <li>
+                <a href="#footer">
+                    <img src="assets/icons/subject.svg"> <!-- You're such a bottom popup -->
+                </a>
+                <span class="tooltip">You're such a bottom (Footer)</span>
+            </li>
+            <li>
+                <a href="contribute.html">
+                    <img src="assets/icons/volunteer_activism.svg"> <!-- Contribute! -->
+                </a>
+                <span class="tooltip">Help out & contribute</span>
+            </li>
+        </ul>
+        <!-- </section> -->
+
+    </div>
+
     <main>
-        <section>
-            <h1>Going under changes!</h1>
-            <p>
-                So if you see issues or incomplete features that's (probably) cause I'm currently working on the website.
-                <br>
-                Hopefully I can get everything working soon but for now the website should still stay useable despite any weird looking elements, etc 
-                <br>
-                Anyways thanks for visiting! Hopefully I can get all this stuff done soon (" o.o)
-            </p>
-        </section>
-        
-        <section id="btns" class="btns">
-            <a href="#imabgess">Images</a>
-            <a href="#vids">Videos</a>
-            <a href="#gifs_not_jifs">Gifs</a>
-            <a href="#svgs">SVGs</a>
-            <a href="#footer">You're such a bottom :></a>
-            <a href="contribute.html">Contribute!</a>
-        </section>
+
+        <div id="top"><br></div>
+
+        <div class="search-bar-container">
+            <img src="assets/icons/search.svg">
+            <input id="search-bar" class="search-bar" type="text" autocapitalize="off" autocorrect="off" placeholder="Search">
+        </div>
+        <script src="search-bar.js"></script>
+
         <!-- <section id="download-all-btn" class="download-all-btn" onclick="async () => await download_all()">
             <a>Download ALL</a>
         </section> -->
@@ -76,24 +114,27 @@
                 <!-- <img> -->
             </div>
         </section>
-
-
     </main>
 
     <footer id="footer">
         <h3>Super Epic Footer That Works Perfectly</h3>
         <p>Hiya! I hope this website was helpful or at the very least was interesting to look at (ᵕ—ᴗ—)</p>
-        <p>I decided to make it after seeing some people on r/boykisser sharing FULL GOOGLE DRIVES filled with boykisser images but I wanted a nice sorted version :3</p>
+        <p>I decided to make it after seeing some people on r/boykisser sharing FULL GOOGLE DRIVES filled with boykisser
+            images but I wanted a nice sorted version :3</p>
         <div class="footer-links">
             <a href="https://github.com/AboveAphid/TheGalleryOfBoyKissers">Github</a>
-            <a href="https://www.google.com/search?q=how+to+save+money%3F+Hint%3A+By+not+giving+it+to+people">Don't By Me A Coffee</a>
-            <a href="https://buymeacoffee.com/aphid">Do By Me A Coffee</a>
+            <a href="https://www.google.com/search?q=how+to+save+money%3F+Hint%3A+By+not+giving+it+to+people">Don't By
+                Me A Coffee</a>
+            <!-- <a href="https://buymeacoffee.com/aphid">Do By Me A Coffee</a> -->
         </div>
     </footer>
 
+
+
     <!-- Specify type module as we will be using the node modules -->
     <!-- <script type="module" src="src/main.js"></script> -->
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script src="https://unpkg.com/imagehash-web/dist/imagehash-web.min.js"></script>
 
