@@ -75,7 +75,7 @@ async function add_gallery_content(adding_for, labels) {
         gallery_item_elem.appendChild(creator_bubble)
         
         // Simulate known users
-        var file_label = get_label(hash)
+        var file_label = get_label(hash) // from utils.js
         var creator_name = "N/A"
         if (file_label) {
             creator_name = file_label.creator.display
