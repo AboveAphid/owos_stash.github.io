@@ -147,7 +147,8 @@ a {
 .note {
     margin-left: 1rem;
     background-color: #1b1922;
-    
+    padding: 1rem;
+    border-radius: 1rem;
 }
 
 /* Keep Masonry gallery working and adaptive to the size of the screen */

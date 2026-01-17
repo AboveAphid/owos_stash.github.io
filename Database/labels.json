@@ -17071,11 +17071,11 @@
         "nsfw": false,
         "tags": [],
         "creator": {
-            "display": "N/A",
+            "display": "WeegTime",
             "platforms": {
                 "bsky": null,
                 "discord": null,
-                "reddit": null,
+                "reddit": "https://www.reddit.com/user/Embarrassed_Help8851/",
                 "twitter": null,
                 "twitch": null,
                 "youtube": null,
@@ -17083,9 +17083,9 @@
                 "other": null
             }
         },
-        "original_post_link": null,
-        "found_from_link": null,
-        "note": "This is a test note rahhhhhh!<br>I may even have multiple lines like this! Maybe even some <b>bold styling!</b>"
+        "original_post_link": "https://www.reddit.com/r/boykisser/comments/18kp8ml/i_recreated_more_art/",
+        "found_from_link": "https://www.reddit.com/r/boykisser/comments/18kp8ml/i_recreated_more_art/",
+        "note": "This image was created by u/Embarrassed_Help8851 on reddit however it was inspired by @pawkisser44!"
     },
     "9da2b68081e781c3": {
         "root": "Database\\Images",
@@ -17237,47 +17237,23 @@
         "filename": "bk_9f87818f85d5c3cf.jpg",
         "filename_wo_ext": "bk_9f87818f85d5c3cf",
         "nsfw": false,
-        "tags": [],
+        "tags": ["pawkisser44", "pawkisser"],
         "creator": {
-            "display": "N/A",
+            "display": "Pawkisser44",
             "platforms": {
                 "bsky": null,
                 "discord": null,
                 "reddit": null,
-                "twitter": null,
+                "twitter": "https://x.com/pawkisser44",
                 "twitch": null,
                 "youtube": null,
-                "kofi": null,
-                "other": null
+                "kofi": "https://ko-fi.com/pawkisser44",
+                "other": "https://www.sotwe.com/pawkisser44"
             }
         },
         "original_post_link": null,
         "found_from_link": null,
-        "note": "This is a test note rahhhhhh!<br>I may even have multiple lines like this! Maybe even some <b>bold styling!</b>"
-    },
-    "9f8781cf85d5cfcf": {
-        "root": "Database\\Images",
-        "type": "jpg",
-        "filename": "bk_9f8781cf85d5cfcf.jpg",
-        "filename_wo_ext": "bk_9f8781cf85d5cfcf",
-        "nsfw": false,
-        "tags": [],
-        "creator": {
-            "display": "N/A",
-            "platforms": {
-                "bsky": null,
-                "discord": null,
-                "reddit": null,
-                "twitter": null,
-                "twitch": null,
-                "youtube": null,
-                "kofi": null,
-                "other": null
-            }
-        },
-        "original_post_link": null,
-        "found_from_link": null,
-        "note": "This is a test note rahhhhhh!<br>I may even have multiple lines like this! Maybe even some <b>bold styling!</b>"
+        "note": "Pawkisser44 was originally unhappy with her artwork being posted on the BoyKisser subreddits (in 2024). I am unaware of their perspective now. Here's the post detailing Pawkisser's perspective (verified): <a href=\"https://www.reddit.com/r/boykisser/comments/1dkm7jo/know_these_artworks_im_friends_with_the_artist/\">click here to be redirected</a>"
     },
     "9f87c3e3e1e0e1ff": {
         "root": "Database\\Images",
