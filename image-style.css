@@ -144,6 +144,12 @@ a {
     border-radius: 20px; padding: 0.1rem 1rem;
 }
 
+.note {
+    margin-left: 1rem;
+    background-color: #1b1922;
+    
+}
+
 /* Keep Masonry gallery working and adaptive to the size of the screen */
 @media screen and (max-width: 1200px) {
     .gallery-masonry {

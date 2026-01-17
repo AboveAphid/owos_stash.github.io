@@ -12,6 +12,7 @@ make_database_folders()
 DEFAULT_DISPLAY = "N/A"
 DEFAULT_TAGS = []
 DEFAULT_NSFW = False
+DEFAULT_NOTE = "This is a test note rahhhhhh!<br>I may even have multiple lines like this! Maybe even some <b>bold styling!</b>"
 
 DEFAULT_PLATFORMS = {
     "bsky": None,
@@ -118,19 +119,28 @@ def normalise_label(label: dict) -> tuple[bool, dict]:
     # Fix missing "root"
     if "root" not in label or not isinstance(label["root"], str):
         label["root"] = None
+        changed = True
     
     # Fix missing "type"
     if "type" not in label or not isinstance(label["type"], str):
         label["type"] = None
+        changed = True
 
     # Fix missing "filename"
     if "filename" not in label or not isinstance(label["filename"], str):
         label["filename"] = None
+        changed = True
 
     # Fix missing "filename_wo_ext"
     if "filename_wo_ext" not in label or not isinstance(label["filename_wo_ext"], str):
         label["filename_wo_ext"] = None
+        changed = True
 
+    # Fix missing "note"
+    if "note" not in label or not isinstance(label["note"], str):
+        label["note"] = DEFAULT_NOTE
+        changed = True
+    
     
 
     return changed, label
@@ -159,7 +169,8 @@ def make_label(
         tags:list|None=None, nsfw=False,
         creator_display:str|None=None,
         platforms:dict|None=None,
-        original_post_link=None, found_from_link=None   
+        original_post_link=None, found_from_link=None,
+        note:str|None=None
     ):
     if tags is None:
         tags = []
@@ -167,6 +178,8 @@ def make_label(
         platforms = {}
     if creator_display is None:
         creator_display = DEFAULT_DISPLAY
+    if note is None:
+        note = DEFAULT_NOTE
 
     filename_wo_ext, file_ext = os.path.splitext(filename)
     
@@ -200,7 +213,8 @@ def make_label(
 
         "creator": creator,
         "original_post_link": original_post_link,
-        "found_from_link": found_from_link
+        "found_from_link": found_from_link,
+        "note": note
     }
 
     labels[hash] = entry

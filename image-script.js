@@ -18,6 +18,7 @@ async function main() {
     const tags = label["tags"] || []
     const creator_display = label["creator"]["display"] || "N/A"
     const creator_socials = label["creator"]["platforms"] || {}
+    const note = label["note"] || ""
 
     // Add image
     // const file_url = `https://raw.githubusercontent.com/${USERNAME}/${REPO}/main/Database/${parent_folder}/${filename}`
@@ -49,7 +50,7 @@ async function main() {
     
     var has_at_least_one_social = false;
 
-    var social_blob_html = ""
+    var social_blob_html = "<ul>"
     for (const [social, link] of Object.entries(creator_socials)) {
 
         console.log(`${social} | ${link}`)
@@ -59,6 +60,7 @@ async function main() {
             has_at_least_one_social = true;
         }
     }
+    social_blob_html += "</ul>"
 
     if (creator_display === "N/A" || !creator_display) {
         description_elem.innerHTML = `We don't know who made this image! :<`
@@ -70,6 +72,10 @@ async function main() {
         description_elem.innerHTML += `<br>The artist is available on: ${social_blob_html}`
     } else {
         description_elem.innerHTML += "<br>We don't have any of their social links."
+    }
+
+    if (note) {
+        description_elem.innerHTML += `<br>There is a note on this image! It says: <br><div class="note">${note}</div>`
     }
     
     // Go to artist btn
